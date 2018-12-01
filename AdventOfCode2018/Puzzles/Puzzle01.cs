@@ -1,14 +1,14 @@
 using System.Collections.Generic;
-using AdventOfCode2018.PuzzleInputs;
+using System.IO;
 
-namespace AdventOfCode2018
+namespace AdventOfCode2018.Puzzles
 {
     public static class Puzzle01
     {
         public static int Part1()
         {
             var answer = 0;
-            var input = TextLoader.FromFile("PuzzleInputs/Input01.txt");
+            var input = File.ReadAllLines("Inputs/Input01.txt");
 
             foreach (var line in input)
             {
@@ -22,7 +22,7 @@ namespace AdventOfCode2018
         {
             var answer = 0;
             var uniqueValues = new List<int> { answer };
-            var input = TextLoader.FromFile("PuzzleInputs/Input01.txt");
+            var input = File.ReadAllLines("Inputs/Input01.txt");
 
             return DuplicateCheckLoop(input, answer, uniqueValues);
         }
