@@ -38,7 +38,7 @@ namespace AdventOfCode2018.Tests
         {
             var answer = Puzzle02.Part2();
             Console.WriteLine($"The answer to puzzle 2 part 2 is: {answer}");
-            Assert.Equal("aaaa", answer);
+            Assert.Equal("bpacnmglhizqygfsjixtkwudr", answer);
         }
         #endregion
 
@@ -46,17 +46,17 @@ namespace AdventOfCode2018.Tests
         [Fact]
         public void Puzzle03Part1Test()
         {
-            var answer = Puzzle03.Part1();
-            Console.WriteLine($"The answer to puzzle 3 part 1 is: {answer}");
-            Assert.Equal(0, answer);
+            // var answer = Puzzle03.Part1();
+            // Console.WriteLine($"The answer to puzzle 3 part 1 is: {answer}");
+            // Assert.Equal(0, answer);
         }
 
         [Fact]
         public void Puzzle03Part2Test()
         {
-            var answer = Puzzle03.Part2();
-            Console.WriteLine($"The answer to puzzle 3 part 2 is: {answer}");
-            Assert.Equal(0, answer);
+            // var answer = Puzzle03.Part2();
+            // Console.WriteLine($"The answer to puzzle 3 part 2 is: {answer}");
+            // Assert.Equal(0, answer);
         }
         #endregion
     }
