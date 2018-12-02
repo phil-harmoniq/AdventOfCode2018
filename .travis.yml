@@ -3,6 +3,9 @@ language: csharp
 mono: none
 dotnet: 2.1.403
 
+before_script:
+- "ls -lhaF"
+
 script:
 - "dotnet restore"
 - "dotnet build /p:CiBuildId=$TRAVIS_BUILD_NUMBER"

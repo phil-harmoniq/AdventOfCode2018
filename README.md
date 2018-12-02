@@ -1,1 +1,1 @@
-# Solutions for the [2018 Advent of Code](https://adventofcode.com/)
+# Solutions for the [2018 Advent of Code](https://adventofcode.com/) [![Travis (.org)](https://img.shields.io/travis/phil-harmoniq/AdventOfCode2018.svg)](https://travis-ci.org/phil-harmoniq/AdventOfCode2018)
