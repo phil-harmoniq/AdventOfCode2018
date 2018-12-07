@@ -46,17 +46,17 @@ namespace AdventOfCode2018.Tests
         [Fact]
         public void Puzzle03Part1Test()
         {
-            // var answer = Puzzle03.Part1();
-            // Console.WriteLine($"The answer to puzzle 3 part 1 is: {answer}");
-            // Assert.Equal(0, answer);
+            var answer = Puzzle03.Part1();
+            Console.WriteLine($"The answer to puzzle 3 part 1 is: {answer}");
+            Assert.Equal(120408, answer);
         }
 
         [Fact]
         public void Puzzle03Part2Test()
         {
-            // var answer = Puzzle03.Part2();
-            // Console.WriteLine($"The answer to puzzle 3 part 2 is: {answer}");
-            // Assert.Equal(0, answer);
+            var answer = Puzzle03.Part2();
+            Console.WriteLine($"The answer to puzzle 3 part 2 is: {answer}");
+            Assert.Equal(1276, answer);
         }
         #endregion
     }

@@ -1,6 +1,4 @@
 {
-	"gitlens.codeLens.enabled": true,
-	"gitlens.gitExplorer.enabled": false,
 	"files.exclude": {
 		"**/.git": true,
 		"**/.svn": true,

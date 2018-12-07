@@ -4,10 +4,6 @@
 	"recommendations": [
 		// Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
 		"ms-vscode.csharp",
-		"k--kato.docomment",
-		"jchannon.csharpextensions",
-		"eamodio.gitlens",
-		"tintoy.msbuild-project-tools",
 		"formulahendry.dotnet-test-explorer",
 		"felixrieseberg.vsc-travis-ci-status"
 	]
