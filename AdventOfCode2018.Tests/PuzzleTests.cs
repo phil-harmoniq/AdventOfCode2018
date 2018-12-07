@@ -59,5 +59,23 @@ namespace AdventOfCode2018.Tests
             Assert.Equal(1276, answer);
         }
         #endregion
+        
+        #region Puzzle04
+        [Fact]
+        public void Puzzle04Part1Test()
+        {
+            var answer = Puzzle04.Part1();
+            Console.WriteLine($"The answer to puzzle 4 part 1 is: {answer}");
+            Assert.Equal(39698, answer);
+        }
+
+        [Fact]
+        public void Puzzle04Part2Test()
+        {
+            var answer = Puzzle04.Part2();
+            Console.WriteLine($"The answer to puzzle 4 part 2 is: {answer}");
+            Assert.Equal(14920, answer);
+        }
+        #endregion
     }
 }
