@@ -7,28 +7,42 @@ namespace AdventOfCode2018.Puzzles
 {
     public class Puzzle05
     {
-        public static object Part1()
+        public static int Part1()
         {
             var polymers = File.ReadAllText("Inputs/Input05.txt")
                 .Select(c => new Polymer(c))
                 .ToList();
-            
+
             MarkDuplicates(polymers);
-            var answer  = BeginReaction(polymers);
+            var answer = BeginReaction(polymers);
 
             return answer.Count();
         }
 
-        public static object Part2()
+        public static int Part2()
         {
-            throw new NotImplementedException();
+            var polymers = File.ReadAllText("Inputs/Input05.txt")
+                .Select(c => new Polymer(c));
+            var results = new Dictionary<char, IEnumerable<Polymer>>();
+
+            for (var c = 'a'; c <= 'z'; c++)
+            {
+                var uniquePolymers = new List<Polymer>(polymers)
+                    .Where(p => !p.IsType(c))
+                    .ToList();
+                
+                MarkDuplicates(uniquePolymers);
+                results[c] = BeginReaction(uniquePolymers);
+            }
+
+            return results.OrderBy(x => x.Value.Count()).First().Value.Count();
         }
 
         private static IEnumerable<Polymer> BeginReaction(List<Polymer> polymers)
         {
             polymers = polymers.Where(polymer => !polymer.MarkedForDeletion).ToList();
             MarkDuplicates(polymers);
-            
+
             if (polymers.Any(p => p.MarkedForDeletion)) { return BeginReaction(polymers); }
             else { return polymers; }
         }
@@ -37,10 +51,10 @@ namespace AdventOfCode2018.Puzzles
         {
             for (var c = 0; c < polymers.Count - 1; c++)
             {
-                if (!polymers[c].MarkedForDeletion && polymers[c].IsOppositePolarity(polymers[c+1]))
+                if (!polymers[c].MarkedForDeletion && polymers[c].IsOppositePolarity(polymers[c + 1]))
                 {
                     polymers[c].MarkedForDeletion = true;
-                    polymers[c+1].MarkedForDeletion = true;
+                    polymers[c + 1].MarkedForDeletion = true;
                 }
             }
         }
@@ -50,6 +64,8 @@ namespace AdventOfCode2018.Puzzles
             public char Type { get; }
             public Polarity Polarity { get; }
             public bool MarkedForDeletion { get; set; }
+            internal bool IsType(char @char) => char.ToLower(Type) == char.ToLower(@char);
+            internal bool IsType(Polymer polymer) => IsType(polymer.Type);
 
             internal Polymer(char @char)
             {
@@ -59,7 +75,7 @@ namespace AdventOfCode2018.Puzzles
 
             internal bool IsOppositePolarity(Polymer polymer)
             {
-                return char.ToLower(Type) == char.ToLower(polymer.Type) && Polarity != polymer.Polarity;
+                return IsType(polymer) && Polarity != polymer.Polarity;
             }
         }
 

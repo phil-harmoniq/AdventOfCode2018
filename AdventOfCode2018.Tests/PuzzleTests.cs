@@ -92,7 +92,7 @@ namespace AdventOfCode2018.Tests
         {
             var answer = Puzzle05.Part2();
             Console.WriteLine($"The answer to puzzle 5 part 2 is: {answer}");
-            Assert.Equal(14920, answer);
+            Assert.Equal(4992, answer);
         }
         #endregion
     }
