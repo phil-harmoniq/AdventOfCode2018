@@ -7,11 +7,11 @@ namespace AdventOfCode2018.Puzzles
 {
     public class Puzzle05
     {
+        public static readonly string Input = File.ReadAllText("Inputs/Input05.txt");
+        
         public static int Part1()
         {
-            var polymers = File.ReadAllText("Inputs/Input05.txt")
-                .Select(c => new Polymer(c))
-                .ToList();
+            var polymers = Input.Select(c => new Polymer(c)).ToList();
 
             MarkDuplicates(polymers);
             var answer = BeginReaction(polymers);
@@ -21,8 +21,7 @@ namespace AdventOfCode2018.Puzzles
 
         public static int Part2()
         {
-            var polymers = File.ReadAllText("Inputs/Input05.txt")
-                .Select(c => new Polymer(c));
+            var polymers = Input.Select(c => new Polymer(c));
             var results = new Dictionary<char, IEnumerable<Polymer>>();
 
             for (var c = 'a'; c <= 'z'; c++)

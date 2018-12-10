@@ -7,14 +7,14 @@ namespace AdventOfCode2018.Puzzles
 {
     public class Puzzle02
     {
+        public static readonly string[] Input = File.ReadAllLines("Inputs/Input02.txt");
+
         public static int Part1()
         {
-            var input = File.ReadAllLines("Inputs/Input02.txt");
-
             var linesWithLettersTwoTimes = 0;
             var linesWithLettersThreeTimes = 0;
 
-            foreach (var line in input)
+            foreach (var line in Input)
             {
                 var characterCounts = new Dictionary<char, int>();
 
@@ -47,13 +47,12 @@ namespace AdventOfCode2018.Puzzles
 
         public static string Part2()
         {
-            var input = File.ReadAllLines("Inputs/Input02.txt");
             var boxOneId = "";
             var boxTwoId = "";
 
-            foreach (var line in input)
+            foreach (var line in Input)
             {
-                var stringDifferingByOneChar = FindStringDifferingByOneChar(line, input);
+                var stringDifferingByOneChar = FindStringDifferingByOneChar(line, Input);
                 if (!string.IsNullOrEmpty(stringDifferingByOneChar))
                 {
                     boxOneId = line;

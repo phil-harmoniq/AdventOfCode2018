@@ -1,41 +1,34 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace AdventOfCode2018.Puzzles
 {
     public class Puzzle03
     {
+        public static readonly string[] Input = File.ReadAllLines("Inputs/Input03.txt");
+
         public static int Part1()
         {
-            var file = File.ReadAllLines("Inputs/Input03.txt");
-            var claims = new List<Claim>();
+            var claims = Input.Select(line => Claim.ParseNew(line));
             var map = new int[1000, 1000];
-            foreach (var line in file) { claims.Add(Claim.ParseNew(line)); }
             foreach (var claim in claims) { claim.AddToMap(map); }
 
             var overlapping = 0;
 
-            for (var x = 0; x < map.GetLength(0); x++)
+            map.Enumerate2D((claim, x, y) =>
             {
-                for (var y = 0; y < map.GetLength(1); y++)
-                {
-                    if (map[x, y] > 1)
-                    {
-                        overlapping++;
-                    }
-                }
-            }
+                if (claim > 1) { overlapping++; }
+            });
 
             return overlapping;
         }
 
         public static int Part2()
         {
-            var file = File.ReadAllLines("Inputs/Input03.txt");
-            var claims = new List<Claim>();
+            var claims = Input.Select(line => Claim.ParseNew(line));
             var map = new int[1000, 1000];
-            foreach (var line in file) { claims.Add(Claim.ParseNew(line)); }
             foreach (var claim in claims) { claim.AddToMap(map); }
             
             foreach (var claim in claims)
@@ -85,17 +78,14 @@ namespace AdventOfCode2018.Puzzles
             internal bool HasNoOverlaps(int[,] map)
             {
                 var hasOverlaps = true;
-
-                for (var x = OffsetX; x < OffsetX + LengthX; x++)
+                
+                PuzzleTools.Enumerate2D(OffsetX, OffsetY, OffsetX + LengthX, OffsetY + LengthY, (x, y) =>
                 {
-                    for (var y = OffsetY; y < OffsetY + LengthY; y++)
+                    if (map[x,y] != 1)
                     {
-                        if (map[x,y] != 1)
-                        {
-                            hasOverlaps = false;
-                        }
+                        hasOverlaps = false;
                     }
-                }
+                });
 
                 return hasOverlaps;
             }

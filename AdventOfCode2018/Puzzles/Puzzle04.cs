@@ -7,12 +7,12 @@ namespace AdventOfCode2018.Puzzles
 {
     public class Puzzle04
     {
+        public static readonly string[] Input = File.ReadAllLines("Inputs/Input04.txt");
+
         public static int Part1()
         {
             var guards = new Dictionary<int, Guard>();
-            var events = File.ReadAllLines("Inputs/Input04.txt")
-                .Select(x => Event.Parse(x))
-                .OrderBy(x => x.TimeStamp);
+            var events = Input.Select(x => Event.Parse(x)).OrderBy(x => x.TimeStamp);
 
             CalculateEvents(events, guards);
 
@@ -24,9 +24,7 @@ namespace AdventOfCode2018.Puzzles
         public static int Part2()
         {
             var guards = new Dictionary<int, Guard>();
-            var events = File.ReadAllLines("Inputs/Input04.txt")
-                .Select(x => Event.Parse(x))
-                .OrderBy(x => x.TimeStamp);
+            var events = Input.Select(x => Event.Parse(x)).OrderBy(x => x.TimeStamp);
 
             CalculateEvents(events, guards);
 
