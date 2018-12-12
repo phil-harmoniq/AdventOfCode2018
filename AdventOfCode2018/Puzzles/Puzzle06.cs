@@ -37,10 +37,9 @@ namespace AdventOfCode2018.Puzzles
         public static int Part2()
         {
             var givenCoordinates = Input.Select(line => Coordinates.Parse(line));
-            var map = new int[1000, 1000];
             var underOneThousand = 0;
 
-            map.Enumerate2D((item, x, y) =>
+            PuzzleTools.Enumerate2D(1000, 1000, (x, y) =>
             {
                 var distancesTotal = givenCoordinates
                     .Select(d => new KeyValuePair<Coordinates, int>(d, d.DistanceTo(x, y)))
