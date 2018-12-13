@@ -20,40 +20,47 @@ namespace AdventOfCode2018.Puzzles
         public static int Part2()
         {
             var minutesElapsed = 0;
+            var correctStepOrder = new List<char>();
             var taskPool = new TaskPool(Input);
             var workers = new Worker[]
             {
-                new Worker(),
-                new Worker(),
-                new Worker(),
-                new Worker(),
-                new Worker()
+                new Worker(1),
+                new Worker(2),
+                new Worker(3),
+                new Worker(4),
+                new Worker(5)
             };
 
             while (!taskPool.Finished)
             {
+                Console.WriteLine($"---------- Task Loop ({minutesElapsed} minutes) ----------");
                 var idleWorkers = workers.Where(w => w.CurrentTask == null);
                 
-                while (idleWorkers.Count() > 0 && taskPool.AvailableSteps.Count > 0)
+                while (idleWorkers.Count() > 0 && taskPool.StepsUnblocked.Count() > 0)
                 {
                     taskPool.AssignNextAvailableTask(idleWorkers.First());
                     idleWorkers = idleWorkers.Skip(1);
                 }
 
                 var activeWorkers = workers.Where(w => w.CurrentTask != null).OrderBy(w => w.MinutesLeft);
-                var nextWorkerCompletion = activeWorkers.First();
-                int timeElapsed = nextWorkerCompletion.MinutesLeft;
+                int timeElapsed = activeWorkers.First().MinutesLeft;
+
+                Console.WriteLine($"- Elapsing time for {timeElapsed} minutes -");
 
                 foreach (var worker in activeWorkers)
                 {
-                    worker.MinutesLeft -= timeElapsed;
+                    worker.ElapseMinutes(timeElapsed);
+
                     if (worker.MinutesLeft < 1)
                     {
+                        Console.WriteLine($"Worker {worker.Id} finished task {worker.CurrentTask.Id}");
+                        correctStepOrder.Add(worker.CurrentTask.Id);
                         taskPool.FinishStep(worker.CurrentTask);
-                        worker.CurrentTask = null;
+                        worker.ClearTask();
                     }
                 }
                 minutesElapsed += timeElapsed;
+                Console.WriteLine($"Task loop ending at {minutesElapsed} minutes");
             }
 
             return minutesElapsed;
@@ -61,84 +68,68 @@ namespace AdventOfCode2018.Puzzles
 
         private class TaskPool
         {
-            internal SortedDictionary<char, Step> AvailableSteps { get; }
-            internal Dictionary<char, Step> BlockedSteps { get; }
-            internal bool Finished => AvailableSteps.Count == 0;
+            private readonly Dictionary<char, Step> _allSteps = new Dictionary<char, Step>();
+            internal IOrderedEnumerable<Step> StepsUnblocked => _allSteps.Values
+                .Where(s => !s.HasDependencies && !s.InProgress && !s.IsCompleted)
+                .OrderBy(s => s.Id);
+            internal IOrderedEnumerable<Step> StepsInProgress => _allSteps.Values
+                .Where(s => s.InProgress)
+                .OrderBy(s => s.AssignedWorker.MinutesLeft);
+            internal IEnumerable<Step> StepsBlocked => _allSteps.Values.Where(s => s.HasDependencies);
+            internal IEnumerable<Step> StepsCompleted => _allSteps.Values.Where(s => s.IsCompleted);
+            internal bool Finished => StepsCompleted.Count() == _allSteps.Count;
 
             internal TaskPool(string[] input)
             {
-                AvailableSteps = new SortedDictionary<char, Step>();
-                BlockedSteps = new Dictionary<char, Step>();
-                var steps = new Dictionary<char, Step>();
-                for (var c = 'A'; c <= 'Z'; c++) { steps.Add(c, new Step(c)); }
+                for (var c = 'A'; c <= 'Z'; c++) { _allSteps.Add(c, new Step(c)); }
             
                 foreach (var line in Input)
                 {
                     var split = line.Split(' ');
-                    steps[split[7][0]].AddDependency(steps[split[1][0]]);
+                    _allSteps[split[7][0]].AddDependency(_allSteps[split[1][0]]);
                 }
-                
-                foreach (var step in steps.Values) { AddStep(step); }
-            }
-
-            internal void AddStep(Step step)
-            {
-                if (!step.HasDependencies) { AvailableSteps.Add(step.Id, step); }
-                else { BlockedSteps.Add(step.Id, step); }
             }
 
             internal Step Part1FinishStep()
             {
-                return FinishStep(AvailableSteps.First().Value);
+                return FinishStep(StepsUnblocked.First());
             }
 
             internal Step FinishStep(Step currentStep)
             {
-                var newAvailableSteps = new List<Step>();
-
-                foreach (var blockedStep in BlockedSteps.Values)
+                foreach (var blockedStep in StepsBlocked)
                 {
                     if (blockedStep.HasDependencyOn(currentStep))
                     {
                         blockedStep.RemoveDependency(currentStep);
-                        if (!blockedStep.HasDependencies)
-                        {
-                            newAvailableSteps.Add(blockedStep);
-                        }
                     }
                 }
 
-                foreach (var step in newAvailableSteps)
-                {
-                    BlockedSteps.Remove(step.Id);
-                    AvailableSteps.Add(step.Id, step);
-                }
-
-                currentStep.CompleteStep();
-                AvailableSteps.Remove(currentStep.Id);
+                currentStep.MarkCompleted();
                 return currentStep;
             }
 
             internal void AssignNextAvailableTask(Worker worker)
             {
-                var nextAvailableTask = AvailableSteps.First();
-                worker.CurrentTask = nextAvailableTask.Value;
-                worker.MinutesLeft = nextAvailableTask.Value.Id - 4;
-                AvailableSteps.Remove(nextAvailableTask.Key);
+                var step = StepsUnblocked.First();
+                step.InProgress = true;
+                worker.NewTask(step);
+                Console.WriteLine($"Worker {worker.Id} is starting task {step.Id}");
             }
         }
 
         private class Step
         {
             internal char Id { get; }
+            internal int MinutesNeeded { get; }
             internal bool IsCompleted { get; private set; }
+            internal bool InProgress { get; set; }
+            internal Worker AssignedWorker { get; private set; }
             internal Dictionary<char, Step> Dependencies { get; }
             internal bool HasDependencies => Dependencies.Count > 0;
-            internal int MinutesNeeded { get; }
             internal void AddDependency(Step step) => Dependencies.Add(step.Id, step);
             internal void RemoveDependency(Step step) => Dependencies.Remove(step.Id);
             internal bool HasDependencyOn(Step step) => Dependencies.ContainsKey(step.Id);
-            internal void CompleteStep() => IsCompleted = true;
 
             internal Step(char id)
             {
@@ -146,13 +137,48 @@ namespace AdventOfCode2018.Puzzles
                 MinutesNeeded = Id - 4;
                 Dependencies = new Dictionary<char, Step>();
             }
+
+            internal void LinkToWorker(Worker worker)
+            {
+                AssignedWorker = worker;
+                InProgress = true;
+            }
+
+            internal void MarkCompleted()
+            {
+                if (AssignedWorker != null) { AssignedWorker = null; }
+                InProgress = false;
+                IsCompleted = true;
+            }
         }
 
         private class Worker
         {
-            internal Step CurrentTask { get; set; }
-            internal int MinutesLeft { get; set; }
-            internal void NewTask(Step step) => CurrentTask = step;
+            internal int Id { get; }
+            internal Step CurrentTask { get; private set; }
+            internal int MinutesLeft { get; private set; }
+            internal void ClearTask() => CurrentTask = null;
+
+            internal Worker(int id)
+            {
+                Id = id;
+            }
+
+            internal void NewTask(Step step)
+            {
+                CurrentTask = step;
+                MinutesLeft = step.MinutesNeeded;
+            }
+
+            internal void ElapseMinutes(int minutesPassed)
+            {
+                var evaluatedMinutes = MinutesLeft - minutesPassed;
+                if (evaluatedMinutes < 0)
+                {
+                    throw new Exception($"Worker minutes underflowed to {evaluatedMinutes}");
+                }
+                MinutesLeft = evaluatedMinutes;
+            }
         }
     }
 }

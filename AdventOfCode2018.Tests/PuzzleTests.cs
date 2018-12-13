@@ -115,7 +115,7 @@ namespace AdventOfCode2018.Tests
         public void Puzzle07Part2Test()
         {
             var answer = TestTimer("07", "2", Puzzle07.Part2);
-            Assert.Equal(45046, answer);
+            Assert.Equal(967, answer);
         }
         #endregion
 
