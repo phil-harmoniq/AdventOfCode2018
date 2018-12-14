@@ -17,6 +17,7 @@ namespace AdventOfCode2018.Puzzles
             return new string(correctStepOrder.ToArray());
         }
 
+        #warning Puzzle 07 part 2 is not correct
         public static int Part2()
         {
             var minutesElapsed = 0;
@@ -33,7 +34,6 @@ namespace AdventOfCode2018.Puzzles
 
             while (!taskPool.Finished)
             {
-                Console.WriteLine($"---------- Task Loop ({minutesElapsed} minutes) ----------");
                 var idleWorkers = workers.Where(w => w.CurrentTask == null);
                 
                 while (idleWorkers.Count() > 0 && taskPool.StepsUnblocked.Count() > 0)
@@ -45,22 +45,18 @@ namespace AdventOfCode2018.Puzzles
                 var activeWorkers = workers.Where(w => w.CurrentTask != null).OrderBy(w => w.MinutesLeft);
                 int timeElapsed = activeWorkers.First().MinutesLeft;
 
-                Console.WriteLine($"- Elapsing time for {timeElapsed} minutes -");
-
                 foreach (var worker in activeWorkers)
                 {
                     worker.ElapseMinutes(timeElapsed);
 
                     if (worker.MinutesLeft < 1)
                     {
-                        Console.WriteLine($"Worker {worker.Id} finished task {worker.CurrentTask.Id}");
                         correctStepOrder.Add(worker.CurrentTask.Id);
                         taskPool.FinishStep(worker.CurrentTask);
                         worker.ClearTask();
                     }
                 }
                 minutesElapsed += timeElapsed;
-                Console.WriteLine($"Task loop ending at {minutesElapsed} minutes");
             }
 
             return minutesElapsed;
@@ -114,7 +110,6 @@ namespace AdventOfCode2018.Puzzles
                 var step = StepsUnblocked.First();
                 step.InProgress = true;
                 worker.NewTask(step);
-                Console.WriteLine($"Worker {worker.Id} is starting task {step.Id}");
             }
         }
 
