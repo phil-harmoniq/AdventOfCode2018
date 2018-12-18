@@ -14,11 +14,17 @@ namespace AdventOfCode2018.Puzzles
             var points = new List<Point>();
             foreach (var line in Input) { points.Add(Point.Parse(line)); }
             var running = true;
+            var iteration = 0;
 
             while (running)
             {
-                foreach (var point in points) { point.Update(); }
+                for (var i = 0; i < 10946; i++)
+                {
+                    foreach (var point in points) { point.Update(); }
+                }
+
                 PrintPoints(points);
+                running = YesNoPrompt("Continue? ");
             }
         }
 
@@ -48,38 +54,32 @@ namespace AdventOfCode2018.Puzzles
 
         private static void PrintPoints(IList<Point> points)
         {
-            var xSize = 10000;
-            var ySize = 10000;
+            var xSize = 100;
+            var ySize = 50;
             var map = new string[xSize, ySize];
             var output = "";
 
-            var allPointsWithinX = points.All(p => p.PositionX >= -xSize && p.PositionX <= xSize);
-            var allPointsWithinY = points.All(p => p.PositionY >= -ySize && p.PositionY <= ySize);
-
-            if (allPointsWithinX && allPointsWithinY)
+            foreach (var point in points)
             {
-                foreach (var point in points)
+                var isWithinXSize = point.PositionX >= 0 && point.PositionX < xSize;
+                var isWithinYSize = point.PositionY >= 0 && point.PositionY < ySize;
+
+                if (isWithinXSize && isWithinYSize)
                 {
-                    var isWithinXSize = point.PositionX >= 0 && point.PositionX < xSize;
-                    var isWithinYSize = point.PositionY >= 0 && point.PositionY < ySize;
-
-                    if (isWithinXSize && isWithinYSize)
-                    {
-                        map[point.PositionX, point.PositionY] = "X";
-                    }
+                    map[point.PositionX, point.PositionY] = "X";
                 }
-
-                for (var y = 0; y < ySize; y++)
-                {
-                    for (var x = 0; x < xSize; x++)
-                    {
-                        output += map[x, y] == "X" ? "X" : ".";
-                    }
-                    output += Environment.NewLine;
-                }
-
-                Console.WriteLine(output + Environment.NewLine);
             }
+
+            for (var y = 0; y < ySize; y++)
+            {
+                for (var x = 0; x < xSize; x++)
+                {
+                    output += map[x, y] == "X" ? "X" : ".";
+                }
+                output += Environment.NewLine;
+            }
+
+            Console.WriteLine(output + Environment.NewLine);
         }
 
         private class Point
