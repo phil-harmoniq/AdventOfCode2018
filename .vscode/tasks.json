@@ -13,16 +13,6 @@
             "group": "build"
         },
         {
-            "label": "Build AppTest",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/AdventOfCode2018.AppTest"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
             "label": "Clean Build Artifacts",
             "command": "dotnet",
             "type": "process",

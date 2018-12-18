@@ -8,11 +8,11 @@
             "name": ".NET Core Launch (console)",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "Build AppTest",
+            "preLaunchTask": "Build Solution",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/AdventOfCode2018.AppTest/bin/Debug/netcoreapp2.1/AdventOfCode2018.AppTest.dll",
+            "program": "${workspaceFolder}/AdventOfCode2018.ManualTests/bin/Debug/netcoreapp2.2/AdventOfCode2018.ManualTests.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/AdventOfCode2018.AppTest",
+            "cwd": "${workspaceFolder}/AdventOfCode2018.ManualTests",
             // For more information about the 'console' field, see https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md#console-terminal-window
             "console": "internalConsole",
             "stopAtEntry": false,

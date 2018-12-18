@@ -137,6 +137,21 @@ namespace AdventOfCode2018.Tests
         }
         #endregion
 
+        #region Puzzle10
+        // [Fact]
+        // public void Puzzle10Part1Test()
+        // {
+        //     var answer = TestTimer("10", "1", Puzzle10.Part1);
+        //     Assert.Equal(46578, answer);
+        // }
+
+        // [Fact]
+        // public void Puzzle10Part2Test()
+        // {
+        //     var answer = TestTimer("10", "2", Puzzle10.Part2);
+        //     Assert.Equal(31251, answer);
+        // }
+        #endregion
         private static T TestTimer<T>(string puzzle, string part, Func<T> test)
         {
             var timer = new Stopwatch();
