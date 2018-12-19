@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static AdventOfCode2018.Extensions;
 
 namespace AdventOfCode2018.Puzzles
 {
@@ -17,7 +18,7 @@ namespace AdventOfCode2018.Puzzles
 
             var overlapping = 0;
 
-            map.Enumerate2D((claim, x, y) =>
+            map.Enumerate2D(claim =>
             {
                 if (claim > 1) { overlapping++; }
             });
@@ -79,7 +80,7 @@ namespace AdventOfCode2018.Puzzles
             {
                 var hasOverlaps = true;
                 
-                PuzzleTools.Enumerate2D(OffsetX, OffsetY, OffsetX + LengthX, OffsetY + LengthY, (x, y) =>
+                Enumerate2D(OffsetX, OffsetY, OffsetX + LengthX, OffsetY + LengthY, (x, y) =>
                 {
                     if (map[x,y] != 1)
                     {

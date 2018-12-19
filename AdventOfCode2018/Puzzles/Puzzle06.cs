@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static AdventOfCode2018.Extensions;
 
 namespace AdventOfCode2018.Puzzles
 {
@@ -13,7 +14,7 @@ namespace AdventOfCode2018.Puzzles
         {
             var givenCoordinates = Input.Select(line => Coordinates.Parse(line)).ToArray();
 
-            PuzzleTools.Enumerate2D(1000, 1000, (x, y) =>
+            Enumerate2D(1000, 1000, (x, y) =>
             {
                 var distances = givenCoordinates.Select(c => new KeyValuePair<Coordinates, int>(c, c.DistanceTo(x, y)));
                 var sorted = distances.OrderBy(c => c.Value);
@@ -39,7 +40,7 @@ namespace AdventOfCode2018.Puzzles
             var givenCoordinates = Input.Select(line => Coordinates.Parse(line));
             var underOneThousand = 0;
 
-            PuzzleTools.Enumerate2D(1000, 1000, (x, y) =>
+            Enumerate2D(1000, 1000, (x, y) =>
             {
                 var distancesTotal = givenCoordinates
                     .Select(d => new KeyValuePair<Coordinates, int>(d, d.DistanceTo(x, y)))
