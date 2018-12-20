@@ -8,7 +8,7 @@ namespace AdventOfCode2018.Puzzles
     public class Puzzle09
     {
         private static readonly string[] Input = File
-            .ReadAllText("Inputs/Input09.txt")
+            .ReadAllText(Path.Combine("Inputs", "Input09.txt"))
             .Split(' ');
 
         private static readonly int NumberOfPlayers = int.Parse(Input[0]);

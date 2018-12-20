@@ -7,7 +7,7 @@ namespace AdventOfCode2018.Puzzles
 {
     public class Puzzle04
     {
-        public static readonly string[] Input = File.ReadAllLines("Inputs/Input04.txt");
+        public static readonly string[] Input = File.ReadAllLines(Path.Combine("Inputs", "Input04.txt"));
 
         public static int Part1()
         {

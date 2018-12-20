@@ -8,7 +8,7 @@ namespace AdventOfCode2018.Puzzles
     public class Puzzle08
     {
         public static readonly int[] Input = File
-            .ReadAllText("Inputs/Input08.txt")
+            .ReadAllText(Path.Combine("Inputs", "Input08.txt"))
             .Split(' ')
             .Select(n => int.Parse(n))
             .ToArray();
