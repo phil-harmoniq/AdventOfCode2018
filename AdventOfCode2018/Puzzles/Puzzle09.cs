@@ -14,13 +14,13 @@ namespace AdventOfCode2018.Puzzles
         private static readonly int NumberOfPlayers = int.Parse(Input[0]);
         private static readonly int LastMarbleValue = int.Parse(Input[6]);
 
-        public static object Part1()
+        public static long Part1()
         {
             var winner = GameLoop(NumberOfPlayers, LastMarbleValue);
             return winner.Score;
         }
 
-        public static object Part2()
+        public static long Part2()
         {
             var winner = GameLoop(NumberOfPlayers, LastMarbleValue * 100);
             return winner.Score;

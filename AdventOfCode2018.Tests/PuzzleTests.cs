@@ -142,7 +142,7 @@ namespace AdventOfCode2018.Tests
         public void Puzzle09Part1Test()
         {
             var answer = TestTimer("09", "1", Puzzle09.Part1);
-            Assert.Equal((long) 374287, answer);
+            Assert.Equal(374287, answer);
         }
 
         [Fact]
