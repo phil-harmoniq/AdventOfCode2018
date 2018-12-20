@@ -27,7 +27,7 @@ namespace AdventOfCode2018.Puzzles
             return allNodes.First().GetValue();
         }
 
-        internal static int GenerateNodes(List<Node> allNodes, int index = 0, Node parent = null)
+        private static int GenerateNodes(List<Node> allNodes, int index = 0, Node parent = null)
         {
             var node = new Node(Input[index], Input[index+1]);
             allNodes.Add(node);
@@ -47,7 +47,7 @@ namespace AdventOfCode2018.Puzzles
             return metaDataIndex + node.MetaData.Length;
         }
         
-        internal class Node
+        private class Node
         {
             internal List<Node> ChildNodes { get; }
             internal int ChildCount{ get; }
