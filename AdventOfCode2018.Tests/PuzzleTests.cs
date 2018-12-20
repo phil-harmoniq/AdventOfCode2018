@@ -142,14 +142,14 @@ namespace AdventOfCode2018.Tests
         public void Puzzle09Part1Test()
         {
             var answer = TestTimer("09", "1", Puzzle09.Part1);
-            Assert.Equal(46578, answer);
+            Assert.Equal(374287, answer);
         }
 
         [Fact]
         public void Puzzle09Part2Test()
         {
             var answer = TestTimer("09", "2", Puzzle09.Part2);
-            Assert.Equal(31251, answer);
+            Assert.Equal(3083412635, answer);
         }
         #endregion
 
